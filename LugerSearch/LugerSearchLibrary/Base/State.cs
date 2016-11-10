@@ -1,18 +1,14 @@
 ﻿namespace LugerSearchLibrary.Base
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using Interfaces;
 
-    public abstract class State : IState<State>
+    public abstract class State : IState
     {
         #region Private Properties
 
-        private State parent;
+        private IState parent;
 
         private double distance;
 
@@ -20,43 +16,33 @@
 
         #region Constructor(s)
 
-        public State()
+        public State() : this(null)
         {
-            parent = null;
-            distance = 0;
+
         }
 
-        public State(State parent)
+        public State(IState parent)
         {
             this.parent = parent;
-            distance = parent.GetDistance() + 1;
+            distance = parent != null ? parent.GetDistance() + 1 : 0;
         }
 
         #endregion
 
         #region Public Methods
 
-        public IEnumerable<State> GetPossibleMoves()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IEnumerable<IState> GetPossibleMoves();
 
-        public bool IsSolution()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool IsSolution();
 
-        public double GetHeuristic()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract double GetHeuristic();
 
         public double GetDistance()
         {
             return distance;
         }
 
-        public State GetParent()
+        public IState GetParent()
         {
             return parent;
         }

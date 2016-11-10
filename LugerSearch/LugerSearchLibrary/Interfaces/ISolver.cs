@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
 
-    interface ISolver<T> where T : class
+    public interface ISolver
     {
-        List<T> Solve(T initialState);
+        List<IState> Solve(IState initialState);
     }
 }

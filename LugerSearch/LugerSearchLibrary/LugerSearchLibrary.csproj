@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\State.cs" />
+    <Compile Include="BestFirstSolver.cs" />
+    <Compile Include="BreadthFirstSolver.cs" />
+    <Compile Include="DepthFirstSolver.cs" />
     <Compile Include="Interfaces\ISolver.cs" />
     <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

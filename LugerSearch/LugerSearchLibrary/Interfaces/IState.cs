@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    internal interface IState<T> where T : class
+    public interface IState
     {
-        IEnumerable<T> GetPossibleMoves();
+        IEnumerable<IState> GetPossibleMoves();
 
         bool IsSolution();
 
@@ -12,6 +12,6 @@
 
         double GetDistance();
 
-        T GetParent();
+        IState GetParent();
     }
 }
