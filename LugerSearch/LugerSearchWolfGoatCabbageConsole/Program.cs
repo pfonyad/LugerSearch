@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using LugerSearchLibrary;
+using LugerSearchLibrary.Interfaces;
 
 namespace LugerSearchWolfGoatCabbageConsole
 {
@@ -12,17 +13,26 @@ namespace LugerSearchWolfGoatCabbageConsole
     {
         static void Main(string[] args)
         {
-            FarmerWolfGoatState fwgs = new FarmerWolfGoatState(null, FarmerWolfGoatState.FarmerWolfGoatSide.East, FarmerWolfGoatState.FarmerWolfGoatSide.East, FarmerWolfGoatState.FarmerWolfGoatSide.East, FarmerWolfGoatState.FarmerWolfGoatSide.East);
+            var farmerWolfGoatState = new FarmerWolfGoatState(
+                null,
+                FarmerWolfGoatState.FarmerWolfGoatSide.East,
+                FarmerWolfGoatState.FarmerWolfGoatSide.East,
+                FarmerWolfGoatState.FarmerWolfGoatSide.East,
+                FarmerWolfGoatState.FarmerWolfGoatSide.East
+                );
 
-            BestFirstSolver bfss = new BestFirstSolver();
+            object[] solvers = { new BestFirstSolver(), new BreadthFirstSolver(), new DepthFirstSolver() };
 
-            //BreadthFirstSolver bfs = new BreadthFirstSolver();
-
-            var solve = bfss.Solve(fwgs);
-
-            foreach (var item in solve)
+            for (int i = 0; i < solvers.Length; i++)
             {
-                Console.WriteLine(item);
+                Console.WriteLine("Solver: {0}\n", solvers[i].GetType().Name);
+
+                foreach (var oneSolve in (solvers[i] as ISolver).Solve(farmerWolfGoatState))
+                {
+                    Console.WriteLine(oneSolve);
+                }
+
+                Console.WriteLine("****** END ******\n\n");
             }
 
             Console.ReadKey();

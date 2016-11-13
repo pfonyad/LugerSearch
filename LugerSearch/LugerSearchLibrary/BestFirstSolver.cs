@@ -1,11 +1,7 @@
 ﻿namespace LugerSearchLibrary
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using Base;
     using Interfaces;
@@ -27,12 +23,36 @@
 
         #endregion
 
+        #region Private Methods
+
+        private void OrderQueue()
+        {
+            var dct = new Dictionary<IState, double>();
+
+            foreach (var oneState in queue)
+            {
+                dct.Add(oneState, oneState.GetDistance() + oneState.GetHeuristic());
+            }
+
+            queue.Clear();
+
+            foreach (var oneState in dct.OrderBy(st => st.Value))
+            {
+                queue.Enqueue(oneState.Key);
+            }
+        }
+
+        #endregion
+
+        #region Protected Override Methods
+
         protected override void AddState(IState state)
         {
             if (!queue.Contains(state))
             {
                 queue.Enqueue(state);
-                queue.OrderBy(st => st.GetDistance() + st.GetHeuristic());
+
+                OrderQueue();
             }
         }
 
@@ -50,5 +70,7 @@
         {
             return queue.Dequeue();
         }
+
+        #endregion
     }
 }
