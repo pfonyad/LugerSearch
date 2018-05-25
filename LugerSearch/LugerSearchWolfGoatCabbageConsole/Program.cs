@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using LugerSearchLibrary;
-using LugerSearchLibrary.Interfaces;
-
-namespace LugerSearchWolfGoatCabbageConsole
+﻿namespace LugerSearchWolfGoatCabbageConsole
 {
+    using System;
+
+    using LugerSearchLibrary;
+    using LugerSearchLibrary.Interfaces;
+
     class Program
     {
         static void Main(string[] args)
@@ -21,19 +17,36 @@ namespace LugerSearchWolfGoatCabbageConsole
                 FarmerWolfGoatState.FarmerWolfGoatSide.East
                 );
 
-            object[] solvers = { new BestFirstSolver(), new BreadthFirstSolver(), new DepthFirstSolver() };
+            ISolver[] solvers = { new BestFirstSolver(), new BreadthFirstSolver(), new DepthFirstSolver() };
 
-            for (int i = 0; i < solvers.Length; i++)
+            foreach (var solver in solvers)
             {
-                Console.WriteLine("Solver: {0}\n", solvers[i].GetType().Name);
+                Console.WriteLine("Solver: {0}\n", solver.GetType().Name);
 
-                foreach (var oneSolve in (solvers[i] as ISolver).Solve(farmerWolfGoatState))
+                foreach (var step in solver.Solve(farmerWolfGoatState))
                 {
-                    Console.WriteLine(oneSolve);
+                    Console.WriteLine(step);
                 }
 
                 Console.WriteLine("****** END ******\n\n");
             }
+
+            Console.WriteLine("Get all solve with BestFirstSolver:\n");
+
+            var bestFirstSolver = new BestFirstSolver();
+            var allSolve = bestFirstSolver.SolveAllMove(farmerWolfGoatState);
+
+            foreach (var solves in allSolve)
+            {
+                foreach (var solve in solves)
+                {
+                    Console.WriteLine(solve);
+                }
+
+                Console.WriteLine("\n**********************************\n");
+            }
+
+            Console.WriteLine("****** END ******\n\n");
 
             Console.ReadKey();
         }

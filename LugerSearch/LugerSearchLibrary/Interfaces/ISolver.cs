@@ -4,6 +4,10 @@
 
     public interface ISolver
     {
-        List<IState> Solve(IState initialState);
+        IEnumerable<IState> Solve(IState initialState);
+
+        IEnumerable<IEnumerable<IState>> GetAllSolve(IState initialState);
+
+        IEnumerable<IEnumerable<IState>> SolveAllMove(IState initialState);
     }
 }
